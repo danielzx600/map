@@ -66,7 +66,7 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import LoadingSpinner from './LoadingSpinner.vue'
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 export default {
     props: ["coords", "fetchCoords", "searchResults"],
@@ -82,13 +82,13 @@ export default {
             clearTimeout(queryTimeout.value);
 
             searchData.value = null;
-            queryTimeout.value = setTimeout(async() => {
+            queryTimeout.value = setTimeout(async () => {
                 if (searchQuery.value !== "") {
                     const params = new URLSearchParams({
                         fuzzyMatch: true,
                         language: "en",
                         limit: 10,
-                        proximity:props.coords ? `${props.coords.lng},${props.coords.lat}` : "0,0",
+                        proximity: props.coords ? `${props.coords.lng},${props.coords.lat}` : "0,0",
                     });
                     const getData = await axios.get(
                         `api/search/${searchQuery.value}?${params}`
@@ -99,6 +99,7 @@ export default {
         };
 
         const selectResult = (result) => {
+            selectedResult.value = result;
             emit('plotResult', result.geometry);
         };
 

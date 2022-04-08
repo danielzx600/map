@@ -68,7 +68,7 @@ export default {
           return;
         }
         // check session storage for coords
-        if (sessionStorage.getitem('coords')) {
+        if (sessionStorage.getitem("coords")) {
           coords.value = JSON.parse(sessionStorage.getItem("coords"));
           plotGeolocation(coords.value);
           return;
@@ -76,6 +76,7 @@ export default {
 
         fetchCoords.value = true;
         navigator.geolocation.getCurrentPosition(setCoords, getLocError);
+        return;
       };
 
       const setCoords = (pos) => {
@@ -88,7 +89,7 @@ export default {
           lng: pos.coords.longitude,
         };
 
-        sessionStorage.setitem('coords', JSON.stringify(setSessionCoords));
+        sessionStorage.setItem("coords", JSON.stringify(setSessionCoords));
 
         // set ref coords value
         coords.value = setSessionCoords;
@@ -96,23 +97,23 @@ export default {
         plotGeolocation(coords.value);
       };
 
-      const getLocError = (err) => {
+      const getLocError = (error) => {
         fetchCoords.value = null;
         geoError.value = true;
-        geoErrorMsg.value = err.message;
+        geoErrorMsg.value = error.message;
       };
 
       const plotGeolocation = (coords) => {
         // create custom market
         const customMarket = leaflet.icon({
-          iconUrl: require('../assets/map-marker-red.svg'),
+          iconUrl: require("../assets/map-marker-red.svg"),
           iconSize: [35, 35],
         });
 
         // create new market with coords and custom icon
         geoMarket.value = leaflet
         .market([coords.lat, coords.lng], { icon: customMarket })
-        .addto(map);
+        .addTo(map);
 
         // set map view to current location
         map.setView([coords.lat, coords.lng], 10);
@@ -132,7 +133,7 @@ export default {
 
             // create custom market
         const customMarket = leaflet.icon({
-          iconUrl: require('../assets/map-marker-blue.svg'),
+          iconUrl: require("../assets/map-marker-blue.svg"),
           iconSize: [35, 35],
         });
 
